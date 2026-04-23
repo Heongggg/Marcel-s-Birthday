@@ -118,33 +118,40 @@ body {
 }
 
 .text-box {
-    /* Tambahan baru biar bisa di-scroll dan muat banyak */
-    max-height: 50vh !important; /* Batasi tinggi kotak biar pas di layar HP */
-    overflow-y: scroll !important; /* Paksa munculin scrollbar */
-    padding-bottom: 70px !important; /* Kasih ruang di bawah biar teks ga ketabrak tombol */
+    /* 1. Tentukan tinggi kotak yang FIX (jangan pake auto) */
+    height: 250px !important; 
+    
+    /* 2. Paksa fungsi scroll keluar dari penjara sistem */
+    overflow-y: scroll !important; 
+    -webkit-overflow-scrolling: touch; /* Biar scroll-nya licin di HP */
+    
+    /* 3. PAKSA biar bisa disentuh jari (ini kuncinya!) */
+    pointer-events: auto !important; 
+    
+    /* 4. Layouting */
     position: relative;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Biar teksnya makin jelas */
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    z-index: 9999; /* Biar dia berada di lapisan paling atas */
 }
 
-.text-box p {
-    margin: 0;
-    text-align: left;
-    line-height: 1.5; /* Biar jarak antar barisnya enak dibaca, ga numpuk */
-}
-
+/* Biar semua huruf langsung muncul tanpa nunggu animasi ketik */
 .text-box span {
-    visibility: hidden;
+    visibility: visible !important;
+    display: inline !important;
 }
 
+/* Posisi tombol okee biar nggak nutupin teks paling bawah */
 .text-box .fake-btn {
-    background-color: rgb(21, 161, 237);
-    border-radius: 3px;
-    color: #fff;
-    padding: 0.5rem 1rem;
-    position: absolute;
-    right: 5px;
-    /* Ini yang diubah biar tombolnya masuk ke dalam kotak! */
-    bottom: 20px !important; 
+    position: sticky; /* Dia bakal nempel di bawah kotak meskipun di-scroll */
+    bottom: 0;
+    float: right;
+    margin-top: 10px;
+    z-index: 10000;
 }
+
 }
 
 .five p {
