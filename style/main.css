@@ -348,7 +348,11 @@ body {
   .wish h5 {
     font-size: 1.4rem;
   }
-
+.hbd-chatbox {
+    max-height: 45vh; 
+    overflow-y: auto; 
+    padding-right: 10px;
+}
   .nine p {
     font-size: 1.5rem;
     font-weight: lighter;
