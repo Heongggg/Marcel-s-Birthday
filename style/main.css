@@ -357,4 +357,9 @@ body {
     font-size: 1.5rem;
     font-weight: lighter;
   }
+  /* Target elemen dengan class wish-hbd untuk menampilkan teks sepenuhnya */
+.wish-hbd {
+    max-height: none !important; /* Menghapus batas max-height */
+    height: auto !important; /* Mengatur tinggi ke auto agar teks muat */
+}
 }
