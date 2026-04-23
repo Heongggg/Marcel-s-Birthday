@@ -117,18 +117,34 @@ body {
   text-align: left;
 }
 
+.text-box {
+    /* Tambahan baru biar bisa di-scroll dan muat banyak */
+    max-height: 50vh !important; /* Batasi tinggi kotak biar pas di layar HP */
+    overflow-y: scroll !important; /* Paksa munculin scrollbar */
+    padding-bottom: 70px !important; /* Kasih ruang di bawah biar teks ga ketabrak tombol */
+    position: relative;
+}
+
+.text-box p {
+    margin: 0;
+    text-align: left;
+    line-height: 1.5; /* Biar jarak antar barisnya enak dibaca, ga numpuk */
+}
+
 .text-box span {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 .text-box .fake-btn {
-  background-color: rgb(21, 161, 237);
-  border-radius: 3px;
-  bottom: -50px;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  position: absolute;
-  right: 5px;
+    background-color: rgb(21, 161, 237);
+    border-radius: 3px;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    position: absolute;
+    right: 5px;
+    /* Ini yang diubah biar tombolnya masuk ke dalam kotak! */
+    bottom: 20px !important; 
+}
 }
 
 .five p {
