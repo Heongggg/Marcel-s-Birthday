@@ -57,14 +57,8 @@ body {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .age-container {
@@ -76,78 +70,113 @@ body {
   transition: all 0.3s ease;
 }
 
+/* ===== SECTION FOUR - CARD STYLE ===== */
 .four {
   width: 100%;
   max-width: 600px;
-  margin: 20px auto;
+  margin: 0 auto;
   color: #333;
+  top: 0 !important;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.four .text-box {
-  border: 3px solid #aaa;
-  border-radius: 5px;
-  margin: 0 auto;
-  padding: 10px;
+.four-inner {
+  width: 90%;
+  max-width: 520px;
+  background: linear-gradient(135deg, #fff5f7 0%, #ffffff 60%, #fff0f5 100%);
+  border-radius: 24px;
+  box-shadow: 0 8px 40px rgba(255, 150, 180, 0.25), 0 2px 8px rgba(0,0,0,0.08);
+  padding: 28px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  max-height: 88vh;
   position: relative;
-  width: 600px;
+  border: 1.5px solid rgba(255, 182, 200, 0.4);
+}
+
+.card-title {
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
+  color: #e0607e;
+  text-align: center;
+  margin: 0 0 16px;
+  font-style: italic;
+  letter-spacing: 0.5px;
 }
 
 .profile {
   display: flex;
   align-items: center;
-  margin-bottom: 15px;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed rgba(255, 150, 180, 0.4);
 }
 
 .profile-image {
-  width: 60px;
-  height: 60px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 10px;
+  margin-right: 12px;
+  border: 2.5px solid #ffb6c8;
+  box-shadow: 0 2px 8px rgba(255,100,150,0.2);
+  flex-shrink: 0;
 }
 
 .profile-name {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #333;
-}
-
-.text-box p {
   margin: 0;
   text-align: left;
+  line-height: 1.3;
 }
 
-/* text-box: scrollable dengan tinggi terbatas, animasi ngetik tetap jalan */
+/* Scrollable text box - NO fixed height, grows and scrolls */
 .text-box {
-  height: 280px;
-  overflow-y: scroll;
+  flex: 1;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  pointer-events: auto;
-  position: relative;
-  padding: 15px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  z-index: 9999;
+  padding: 4px 8px 4px 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #ffb6c8 transparent;
 }
 
-/* JANGAN tambahkan visibility: visible di sini - akan merusak animasi ngetik */
+.text-box::-webkit-scrollbar { width: 4px; }
+.text-box::-webkit-scrollbar-track { background: transparent; }
+.text-box::-webkit-scrollbar-thumb { background: #ffb6c8; border-radius: 4px; }
+
+.text-box p.hbd-chatbox {
+  margin: 0;
+  text-align: justify;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: #444;
+}
+
+/* CRITICAL: spans hidden by default for typing animation */
+.hbd-chatbox span {
+  visibility: hidden;
+}
 
 .fake-btn {
-  background-color: #eee;
-  border-radius: 5px;
-  color: #555;
-  cursor: pointer;
   display: inline-block;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  padding: 5px 15px;
-  position: sticky;
-  bottom: 0;
-  float: right;
-  z-index: 10000;
+  margin-top: 14px;
+  padding: 7px 22px;
+  background: #ffb6c8;
+  color: #fff;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  align-self: flex-end;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(255,100,150,0.2);
 }
 
+/* ===== REST ===== */
 .five p {
   font-size: 2rem;
   left: 0;
@@ -161,9 +190,7 @@ body {
   padding: 3px 5px;
 }
 
-.five .idea-5 {
-  font-size: 4rem;
-}
+.five .idea-5 { font-size: 4rem; }
 
 .idea-5 span,
 .idea-6 span,
@@ -171,9 +198,7 @@ body {
   display: inline-block;
 }
 
-.idea-6 span {
-  font-size: 15rem;
-}
+.idea-6 span { font-size: 15rem; }
 
 .six {
   position: relative;
@@ -194,25 +219,12 @@ body {
   width: 80px;
 }
 
-.baloons img {
-  display: inline-block;
-  position: absolute;
-}
+.baloons img { display: inline-block; position: absolute; }
+.baloons img:nth-child(even) { left: -10%; }
+.baloons img:nth-child(odd) { right: -10%; }
+.baloons img:nth-child(3n + 0) { left: 30%; }
 
-.baloons img:nth-child(even) {
-  left: -10%;
-}
-
-.baloons img:nth-child(odd) {
-  right: -10%;
-}
-
-.baloons img:nth-child(3n + 0) {
-  left: 30%;
-}
-
-.seven,
-.eight {
+.seven, .eight {
   height: 100vh;
   position: fixed;
   top: 0;
@@ -238,80 +250,24 @@ body {
 .eight svg:nth-child(8) { fill: #8762cb; left: 37vw; top: 86vh; }
 .eight svg:nth-child(9) { fill: #9a90da; left: 87vw; top: 94vh; }
 
-.wish-hbd {
-  font-size: 3em;
-  margin: 0;
-  text-transform: uppercase;
-}
+.wish-hbd { font-size: 3em; margin: 0; text-transform: uppercase; }
+.wish h5 { font-size: 2rem; font-weight: lighter; margin: 10px 0 0; }
+.nine p { font-size: 2rem; font-weight: lighter; }
+#replay { cursor: pointer; z-index: 3; }
 
-.wish h5 {
-  font-size: 2rem;
-  font-weight: lighter;
-  margin: 10px 0 0;
-}
-
-.nine p {
-  font-size: 2rem;
-  font-weight: lighter;
-}
-
-#replay {
-  cursor: pointer;
-  z-index: 3;
-}
-
-/* Media Queries */
-@media screen and (max-height: 1000px) {
-  .six .hat { left: 40%; }
-}
-
-@media screen and (max-height: 800px) {
-  .six .hat { left: 37%; }
-}
-
-@media screen and (max-height: 700px) {
-  .six .hat { left: 32%; }
-}
-
-@media screen and (max-height: 850px) and (max-width: 450px) {
-  .six .hat { left: 32%; }
-}
+@media screen and (max-height: 1000px) { .six .hat { left: 40%; } }
+@media screen and (max-height: 800px) { .six .hat { left: 37%; } }
+@media screen and (max-height: 700px) { .six .hat { left: 32%; } }
+@media screen and (max-height: 850px) and (max-width: 450px) { .six .hat { left: 32%; } }
 
 @media screen and (max-width: 500px) {
-  .container {
-    width: 90%;
-  }
-
-  .four .text-box {
-    width: 90%;
-  }
-
-  .fake-btn {
-    bottom: -38px;
-    right: 5px;
-  }
-
-  .idea-5 span {
-    display: block;
-  }
-
-  .idea-6 span {
-    font-size: 10rem;
-  }
-
-  .six .hat {
-    width: 50px;
-  }
-
-  .wish-hbd {
-    font-size: 2.2em;
-  }
-
-  .wish h5 {
-    font-size: 1.4rem;
-  }
-
-  .nine p {
-    font-size: 1.5rem;
-  }
+  .container { width: 100%; }
+  .four-inner { width: 88%; padding: 24px 16px 16px; max-height: 92vh; }
+  .card-title { font-size: 1.2rem; }
+  .idea-5 span { display: block; }
+  .idea-6 span { font-size: 10rem; }
+  .six .hat { width: 50px; }
+  .wish-hbd { font-size: 2.2em; }
+  .wish h5 { font-size: 1.4rem; }
+  .nine p { font-size: 1.5rem; }
 }
