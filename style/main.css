@@ -117,41 +117,36 @@ body {
   text-align: left;
 }
 
+/* FIX: text-box scroll dengan tinggi yang wajar, animasi ngetik tetap jalan */
 .text-box {
-    /* 1. Tentukan tinggi kotak yang FIX (jangan pake auto) */
-    height: 250px !important; 
-    
-    /* 2. Paksa fungsi scroll keluar dari penjara sistem */
-    overflow-y: scroll !important; 
-    -webkit-overflow-scrolling: touch; /* Biar scroll-nya licin di HP */
-    
-    /* 3. PAKSA biar bisa disentuh jari (ini kuncinya!) */
-    pointer-events: auto !important; 
-    
-    /* 4. Layouting */
-    position: relative;
-    padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Biar teksnya makin jelas */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    z-index: 9999; /* Biar dia berada di lapisan paling atas */
+  height: 300px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  pointer-events: auto;
+  position: relative;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 9999;
 }
 
-/* Biar semua huruf langsung muncul tanpa nunggu animasi ketik */
-.text-box span {
-    visibility: visible !important;
-    display: inline !important;
-}
+/* FIX: HAPUS visibility visible override biar animasi ngetik bisa jalan */
+/* .text-box span jangan di-override! */
 
-/* Posisi tombol okee biar nggak nutupin teks paling bawah */
-.text-box .fake-btn {
-    position: sticky; /* Dia bakal nempel di bawah kotak meskipun di-scroll */
-    bottom: 0;
-    float: right;
-    margin-top: 10px;
-    z-index: 10000;
-}
-
+.fake-btn {
+  background-color: rgb(127, 206, 248);
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  padding: 5px 15px;
+  position: sticky;
+  bottom: 0;
+  float: right;
+  z-index: 10000;
 }
 
 .five p {
@@ -191,13 +186,11 @@ body {
   display: inline-block;
   height: 350px;
   max-width: 100%;
-  /* height: auto; */
 }
 
 .six .hat {
   left: 41.5%;
   position: absolute;
-  /* transform: scale(0.1); */
   top: -35%;
   width: 80px;
 }
@@ -346,7 +339,7 @@ body {
     width: 90%;
   }
 
-  .text-box .fake-btn {
+  .fake-btn {
     bottom: -38px;
     right: 5px;
   }
@@ -360,29 +353,26 @@ body {
   }
 
   .six .hat {
-    /* top: -20px; */
     width: 50px;
   }
 
   .wish-hbd {
     font-size: 2.2em;
+    max-height: none;
+    height: auto;
   }
 
   .wish h5 {
     font-size: 1.4rem;
   }
-.hbd-chatbox {
-    max-height: 45vh; 
-    overflow-y: auto; 
-    padding-right: 10px;
-}
+
+  .hbd-chatbox {
+    max-height: none;
+    overflow-y: visible;
+  }
+
   .nine p {
     font-size: 1.5rem;
     font-weight: lighter;
   }
-  /* Target elemen dengan class wish-hbd untuk menampilkan teks sepenuhnya */
-.wish-hbd {
-    max-height: none !important; /* Menghapus batas max-height */
-    height: auto !important; /* Mengatur tinggi ke auto agar teks muat */
-}
 }
