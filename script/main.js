@@ -25,13 +25,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const ageElement = document.getElementById("age");
 
   const months = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember",
   ];
 
   const targetDay = 9;
-  const targetMonthIndex = 6;
-  const targetYear = 2026;
+  const targetMonthIndex = 5; // Juni = index 5
+  const targetYear = 2006;
   const birthYear = 2006;
 
   let currentDay = 1;
@@ -50,32 +50,30 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (currentMonthIndex < targetMonthIndex) {
       currentDay = targetDay;
       currentMonthIndex++;
-    } else if (currentYear < targetYear) {
-      currentMonthIndex = targetMonthIndex;
-      currentYear++;
-      currentAge++;
     } else {
+      // Hitung umur berdasarkan tahun sekarang
+      const now = new Date();
+      currentAge = now.getFullYear() - birthYear;
+      ageElement.textContent = currentAge;
       clearInterval(interval);
     }
-  }, 250);
+  }, 200);
 });
 
 const animationTimeline = () => {
-  const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0];
   const hbd = document.getElementsByClassName("wish-hbd")[0];
 
-  textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML
-    .split("")
-    .join("</span><span>")}</span>`;
+  // Pecah setiap paragraf hbd-chatbox jadi span per karakter
+  const chatboxParagraphs = document.querySelectorAll(".hbd-chatbox");
+  chatboxParagraphs.forEach((p) => {
+    p.innerHTML = `<span>${p.innerHTML.split("").join("</span><span>")}</span>`;
+  });
 
-  hbd.innerHTML = `<span>${hbd.innerHTML
-    .split("")
-    .join("</span><span>")}</span>`;
+  hbd.innerHTML = `<span>${hbd.innerHTML.split("").join("</span><span>")}</span>`;
 
-  // Auto-scroll text box as typing animation plays
   const textBox = document.querySelector(".text-box");
-  let autoScrolling = true;
-  textBox.addEventListener("touchstart", () => { autoScrolling = false; });
+  let userScrolled = false;
+  textBox.addEventListener("touchstart", () => { userScrolled = true; });
 
   const ideaTextTrans = { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" };
   const ideaTextTransLeave = { opacity: 0, y: 20, rotationY: 5, skewX: "-15deg" };
@@ -90,17 +88,26 @@ const animationTimeline = () => {
     .from(".three", 0.7, { opacity: 0, y: 10 })
     .to(".three", 0.7, { opacity: 0, y: 10 }, "+=3")
     .from(".four", 0.7, { scale: 0.2, opacity: 0 })
-    .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 })
-    .staggerTo(".hbd-chatbox span", 1.5, {
+    .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 });
+
+  // Animasi ngetik tiap paragraf satu-satu, kecepatan 0.03 = natural
+  chatboxParagraphs.forEach((p, i) => {
+    tl.staggerTo(p.querySelectorAll("span"), 1.5, {
       visibility: "visible",
-      onComplete: function() {
-        // Auto scroll to bottom as text appears
-        if (autoScrolling && textBox) {
+      onUpdate: function() {
+        if (!userScrolled) {
           textBox.scrollTop = textBox.scrollHeight;
         }
       }
-    }, 0.015)
-    .to(".fake-btn", 0.1, { backgroundColor: "#ff8fab" }, "+=2")
+    }, 0.03);
+
+    // Jeda kecil antar paragraf biar natural
+    if (i < chatboxParagraphs.length - 1) {
+      tl.to({}, 0.4, {});
+    }
+  });
+
+  tl.to(".fake-btn", 0.1, { backgroundColor: "#ff8fab" }, "+=1.5")
     .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1")
     .from(".idea-1", 0.7, ideaTextTrans)
     .to(".idea-1", 0.7, ideaTextTransLeave, "+=2.5")
@@ -153,7 +160,7 @@ const animationTimeline = () => {
 
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
-    autoScrolling = true;
+    userScrolled = false;
     tl.restart();
   });
 };
