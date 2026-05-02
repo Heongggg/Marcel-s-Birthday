@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }, 250);
 });
 
-// animation timeline
 const animationTimeline = () => {
   const textBoxChars = document.getElementsByClassName("hbd-chatbox")[0];
   const hbd = document.getElementsByClassName("wish-hbd")[0];
@@ -73,19 +72,13 @@ const animationTimeline = () => {
     .split("")
     .join("</span><span>")}</span>`;
 
-  const ideaTextTrans = {
-    opacity: 0,
-    y: -20,
-    rotationX: 5,
-    skewX: "15deg",
-  };
+  // Auto-scroll text box as typing animation plays
+  const textBox = document.querySelector(".text-box");
+  let autoScrolling = true;
+  textBox.addEventListener("touchstart", () => { autoScrolling = false; });
 
-  const ideaTextTransLeave = {
-    opacity: 0,
-    y: 20,
-    rotationY: 5,
-    skewX: "-15deg",
-  };
+  const ideaTextTrans = { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" };
+  const ideaTextTransLeave = { opacity: 0, y: 20, rotationY: 5, skewX: "-15deg" };
 
   const tl = new TimelineMax();
 
@@ -98,8 +91,16 @@ const animationTimeline = () => {
     .to(".three", 0.7, { opacity: 0, y: 10 }, "+=3")
     .from(".four", 0.7, { scale: 0.2, opacity: 0 })
     .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 })
-    .staggerTo(".hbd-chatbox span", 1.5, { visibility: "visible" }, 0.015)
-    .to(".fake-btn", 0.1, { backgroundColor: "rgb(127, 206, 248)" }, "+=2")
+    .staggerTo(".hbd-chatbox span", 1.5, {
+      visibility: "visible",
+      onComplete: function() {
+        // Auto scroll to bottom as text appears
+        if (autoScrolling && textBox) {
+          textBox.scrollTop = textBox.scrollHeight;
+        }
+      }
+    }, 0.015)
+    .to(".fake-btn", 0.1, { backgroundColor: "#ff8fab" }, "+=2")
     .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1")
     .from(".idea-1", 0.7, ideaTextTrans)
     .to(".idea-1", 0.7, ideaTextTransLeave, "+=2.5")
@@ -114,8 +115,7 @@ const animationTimeline = () => {
     .from(".idea-4", 0.7, ideaTextTrans)
     .to(".idea-4", 0.7, ideaTextTransLeave, "+=2.5")
     .from(".idea-5", 0.7, {
-      rotationX: 15, rotationZ: -10, skewY: "-5deg",
-      y: 50, z: 10, opacity: 0,
+      rotationX: 15, rotationZ: -10, skewY: "-5deg", y: 50, z: 10, opacity: 0,
     }, "+=1.5")
     .to(".idea-5 span", 0.7, { rotation: 90, x: 8 }, "+=1.4")
     .to(".idea-5", 0.7, { scale: 0.2, opacity: 0 }, "+=2")
@@ -145,8 +145,7 @@ const animationTimeline = () => {
     )
     .from(".wish h5", 0.5, { opacity: 0, y: 10, skewX: "-15deg" }, "party")
     .staggerTo(".eight svg", 1.5, {
-      visibility: "visible", opacity: 0, scale: 80,
-      repeat: 3, repeatDelay: 1.4,
+      visibility: "visible", opacity: 0, scale: 80, repeat: 3, repeatDelay: 1.4,
     }, 0.3)
     .to(".six", 0.5, { opacity: 0, y: 30, zIndex: "-1" })
     .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
@@ -154,6 +153,7 @@ const animationTimeline = () => {
 
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
+    autoScrolling = true;
     tl.restart();
   });
 };
