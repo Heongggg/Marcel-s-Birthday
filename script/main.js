@@ -30,20 +30,17 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const targetDay = 9;
-  const targetMonthIndex = 5; // Juni = index 5
-  const targetYear = 2006;
+  const targetMonthIndex = 5; // Juni
   const birthYear = 2006;
 
   let currentDay = 1;
   let currentMonthIndex = 0;
   let currentYear = birthYear;
-  let currentAge = 0;
 
   const interval = setInterval(() => {
     dayElement.textContent = currentDay;
     monthElement.textContent = months[currentMonthIndex];
     yearElement.textContent = currentYear;
-    ageElement.textContent = currentAge;
 
     if (currentDay < targetDay) {
       currentDay++;
@@ -51,10 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
       currentDay = targetDay;
       currentMonthIndex++;
     } else {
-      // Hitung umur berdasarkan tahun sekarang
       const now = new Date();
-      currentAge = now.getFullYear() - birthYear;
-      ageElement.textContent = currentAge;
+      const age = now.getFullYear() - birthYear;
+      ageElement.textContent = age;
       clearInterval(interval);
     }
   }, 200);
@@ -63,17 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
 const animationTimeline = () => {
   const hbd = document.getElementsByClassName("wish-hbd")[0];
 
-  // Pecah setiap paragraf hbd-chatbox jadi span per karakter
-  const chatboxParagraphs = document.querySelectorAll(".hbd-chatbox");
-  chatboxParagraphs.forEach((p) => {
-    p.innerHTML = `<span>${p.innerHTML.split("").join("</span><span>")}</span>`;
-  });
-
+  // wish-hbd tetap pakai per karakter (teks pendek, oke)
   hbd.innerHTML = `<span>${hbd.innerHTML.split("").join("</span><span>")}</span>`;
-
-  const textBox = document.querySelector(".text-box");
-  let userScrolled = false;
-  textBox.addEventListener("touchstart", () => { userScrolled = true; });
 
   const ideaTextTrans = { opacity: 0, y: -20, rotationX: 5, skewX: "15deg" };
   const ideaTextTransLeave = { opacity: 0, y: 20, rotationY: 5, skewX: "-15deg" };
@@ -88,27 +75,15 @@ const animationTimeline = () => {
     .from(".three", 0.7, { opacity: 0, y: 10 })
     .to(".three", 0.7, { opacity: 0, y: 10 }, "+=3")
     .from(".four", 0.7, { scale: 0.2, opacity: 0 })
-    .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 });
-
-  // Animasi ngetik tiap paragraf satu-satu, kecepatan 0.03 = natural
-  chatboxParagraphs.forEach((p, i) => {
-    tl.staggerTo(p.querySelectorAll("span"), 1.5, {
-      visibility: "visible",
-      onUpdate: function() {
-        if (!userScrolled) {
-          textBox.scrollTop = textBox.scrollHeight;
-        }
-      }
-    }, 0.03);
-
-    // Jeda kecil antar paragraf biar natural
-    if (i < chatboxParagraphs.length - 1) {
-      tl.to({}, 0.4, {});
-    }
-  });
-
-  tl.to(".fake-btn", 0.1, { backgroundColor: "#ff8fab" }, "+=1.5")
-    .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1")
+    .from(".fake-btn", 0.3, { scale: 0.2, opacity: 0 })
+    // Tiap paragraf muncul fade in satu per satu, jeda 1.5 detik antar paragraf
+    .staggerFrom(".hbd-chatbox", 0.6, {
+      opacity: 0,
+      y: 15,
+      ease: Power2.easeOut,
+    }, 1.5)
+    .to(".fake-btn", 0.3, { backgroundColor: "#ff8fab" }, "+=1")
+    .to(".four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1.5")
     .from(".idea-1", 0.7, ideaTextTrans)
     .to(".idea-1", 0.7, ideaTextTransLeave, "+=2.5")
     .from(".idea-2", 0.7, ideaTextTrans)
@@ -160,7 +135,6 @@ const animationTimeline = () => {
 
   const replyBtn = document.getElementById("replay");
   replyBtn.addEventListener("click", () => {
-    userScrolled = false;
     tl.restart();
   });
 };
