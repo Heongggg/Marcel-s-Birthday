@@ -43,15 +43,10 @@ body {
 
 /* PERUBAHAN: hapus width fixed, tambah max-height dan overflow scroll */
 .four .text-box {
-  border: 3px solid #aaa;
-  border-radius: 5px;
   margin: 0 auto;
   padding: 10px;
   position: relative;
   width: 600px;
-  max-height: 55vh;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .text-box p {
